@@ -264,8 +264,9 @@
                  *     descending (Z-A)
                  */
 
-                groupingsService.getGrouping(groupingPath, currentPage, PAGE_SIZE, "name", true, async function (res) {
+                groupingsService.getGrouping(groupingPath, currentPage, 1000, "name", true, async function (res) {
 
+                    console.log(res);
                     // Gets the description go the group
                     if (res.description === null) {
                         $scope.groupingDescription = "";
@@ -281,7 +282,6 @@
                         case "All": {
                             //Gets members in grouping
                             $scope.groupingMembers = setGroupMembers(res.composite.members);
-                            $scope.addWhereListed($scope.groupingMembers);
                             $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, true);
                             break;
                         }
@@ -329,7 +329,6 @@
 
                             //Gets members in grouping
                             $scope.groupingMembers = setGroupMembers(res.composite.members);
-                            $scope.addWhereListed($scope.groupingMembers);
                             $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, true);
 
                             //Gets owners of the grouping
@@ -369,7 +368,7 @@
                          * but waits till the page before is retrieved before getting another page
                          */
                         try {
-                            await $scope.getPages(groupingPath, currentPage, PAGE_SIZE, "name", true);
+                            await $scope.getPages(groupingPath, currentPage, 1000, "name", true);
 
                             //Catches in both fetch and response
                         } catch (error) {
@@ -429,7 +428,6 @@
 
                         //Gets members in grouping
                         $scope.groupingMembers = combineGroupMembers($scope.groupingMembers, res.composite.members);
-                        $scope.addWhereListed($scope.groupingMembers);
                         $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, false);
 
                         //Gets owners of the grouping
