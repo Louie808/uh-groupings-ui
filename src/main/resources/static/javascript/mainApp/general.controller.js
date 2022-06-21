@@ -235,6 +235,40 @@
             });
         };
 
+        // $scope.getGroupingInformation = () => {
+        //     const groupingPath = $scope.selectedGrouping.path;
+        //     let currentPage = 1;
+        //     $scope.paginatingCOmplete = false;
+        //     const start = performance.now();
+        //     groupingsService.getGrouping(groupingPath, currentPage, 30_000, "name", true, (res) => {
+        //         // Gets members in the basis group
+        //         $scope.groupingBasis = setGroupMembers(res.basis.members);
+        //         $scope.filter($scope.groupingBasis, "pagedItemsBasis", "currentPageBasis", $scope.basisQuery, true);
+        //
+        //         //Gets members in the include group
+        //         $scope.groupingInclude = setGroupMembers(res.include.members);
+        //         $scope.filter($scope.groupingInclude, "pagedItemsInclude", "currentPageInclude", $scope.includeQuery, true);
+        //
+        //         //Gets members in the exclude group
+        //         $scope.groupingExclude = setGroupMembers(res.exclude.members);
+        //         $scope.filter($scope.groupingExclude, "pagedItemsExclude", "currentPageExclude", $scope.excludeQuery, true);
+        //
+        //         //Gets members in grouping
+        //         $scope.groupingMembers = setGroupMembers(res.composite.members);
+        //         $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, true);
+        //
+        //         //Gets owners of the grouping
+        //         $scope.groupingOwners = setGroupMembers(res.owners.members);
+        //         $scope.pagedItemsOwners = $scope.groupToPages($scope.groupingOwners);
+        //         $scope.filter($scope.groupingOwners, "pagedItemsOwners", "currentPageMembers", $scope.ownersQuery, true);
+        //        
+        //     }, function (res) {
+        //         $scope.resStatus = res.status;
+        //         $scope.createApiErrorModal();
+        //     });
+        //     const end = performance.now();
+        //     $scope.paginatingComplete = true;
+        // }
         /**
          * Gets information about the grouping, such as its members and the preferences set.
          * Retrieves information asynchronously page by page
@@ -264,7 +298,7 @@
                  *     descending (Z-A)
                  */
 
-                groupingsService.getGrouping(groupingPath, currentPage, 1000, "name", true, async function (res) {
+                groupingsService.getGrouping(groupingPath, currentPage, 30_000, "name", true, async function (res) {
 
                     console.log(res);
                     // Gets the description go the group
@@ -276,7 +310,7 @@
                     }
                     $scope.descriptionLoaded = true;
                     $scope.paginatingProgress = true;
-                    $scope.paginatingComplete = false;
+                    $scope.paginatingComplete = true;
 
                     switch (type) {
                         case "All": {
@@ -294,14 +328,12 @@
                         case "Include": {
                             //Gets members in the include group
                             $scope.groupingInclude = setGroupMembers(res.include.members);
-                            $scope.addInBasis($scope.groupingInclude);
                             $scope.filter($scope.groupingInclude, "pagedItemsInclude", "currentPageInclude", $scope.includeQuery, true);
                             break;
                         }
                         case "Exclude": {
                             //Gets members in the exclude group
                             $scope.groupingExclude = setGroupMembers(res.exclude.members);
-                            $scope.addInBasis($scope.groupingExclude);
                             $scope.filter($scope.groupingExclude, "pagedItemsExclude", "currentPageExclude", $scope.excludeQuery, true);
                             break;
                         }
@@ -319,12 +351,10 @@
 
                             //Gets members in the include group
                             $scope.groupingInclude = setGroupMembers(res.include.members);
-                            $scope.addInBasis($scope.groupingInclude);
                             $scope.filter($scope.groupingInclude, "pagedItemsInclude", "currentPageInclude", $scope.includeQuery, true);
 
                             //Gets members in the exclude group
                             $scope.groupingExclude = setGroupMembers(res.exclude.members);
-                            $scope.addInBasis($scope.groupingExclude);
                             $scope.filter($scope.groupingExclude, "pagedItemsExclude", "currentPageExclude", $scope.excludeQuery, true);
 
                             //Gets members in grouping
@@ -361,20 +391,20 @@
                         $scope.excludeDisable = true;
                     }
 
-                    //While true loop that calls members asynchronously from Grouper based on PAGE_SIZE
-                    while (loadMembersList) {
-                        /**
-                         *Calls getPages function to load the rest of the members,
-                         * but waits till the page before is retrieved before getting another page
-                         */
-                        try {
-                            await $scope.getPages(groupingPath, currentPage, 1000, "name", true);
-
-                            //Catches in both fetch and response
-                        } catch (error) {
-                        }
-                        currentPage++;
-                    }
+                    // //While true loop that calls members asynchronously from Grouper based on PAGE_SIZE
+                    // while (loadMembersList) {
+                    //     /**
+                    //      *Calls getPages function to load the rest of the members,
+                    //      * but waits till the page before is retrieved before getting another page
+                    //      */
+                    //     try {
+                    //         await $scope.getPages(groupingPath, currentPage, 1000, "name", true);
+                    //
+                    //         //Catches in both fetch and response
+                    //     } catch (error) {
+                    //     }
+                    //     currentPage++;
+                    // }
                 }, function (res) {
                     $scope.resStatus = res.status;
                     $scope.createApiErrorModal();
@@ -396,70 +426,68 @@
          * @param {Boolean} isAscending - If true, grouping database is sorted ascending (A-Z), false for descending
          *     (Z-A)
          */
-        $scope.getPages = function (groupingPath, page, size, sortString, isAscending) {
-
-            /**
-             * Promise returned so that the async/await call can be completed
-             * Which will only complete if resolve is called
-             * Resolve will be called based on 2 accounts:
-             *    1) groupingPath has changed so async call needs to be terminated before starting to load new
-             * groupingPath
-             *    2) All members in a grouping have been loaded
-             */
-            return new Promise((resolve) =>
-                groupingsService.getGrouping(groupingPath, page, size, sortString, isAscending, function (res) {
-
-                    // Keep loading members till there are no members left and resolve promise
-                    if (res.basis.members.length !== 0 || res.include.members.length !== 0 ||
-                        res.exclude.members.length !== 0 || res.composite.members.length !== 0 || res.owners.members.length !== 0) {
-
-                        $scope.groupingBasis = combineGroupMembers($scope.groupingBasis, res.basis.members);
-                        $scope.filter($scope.groupingBasis, "pagedItemsBasis", "currentPageBasis", $scope.basisQuery, false);
-
-                        //Gets members in the include group
-                        $scope.groupingInclude = combineGroupMembers($scope.groupingInclude, res.include.members);
-                        $scope.addInBasis($scope.groupingInclude);
-                        $scope.filter($scope.groupingInclude, "pagedItemsInclude", "currentPageInclude", $scope.includeQuery, false);
-
-                        //Gets members in the exclude group
-                        $scope.groupingExclude = combineGroupMembers($scope.groupingExclude, res.exclude.members);
-                        $scope.addInBasis($scope.groupingExclude);
-                        $scope.filter($scope.groupingExclude, "pagedItemsExclude", "currentPageExclude", $scope.excludeQuery, false);
-
-                        //Gets members in grouping
-                        $scope.groupingMembers = combineGroupMembers($scope.groupingMembers, res.composite.members);
-                        $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, false);
-
-                        //Gets owners of the grouping
-                        $scope.groupingOwners = combineGroupMembers($scope.groupingOwners, res.owners.members);
-                        $scope.pagedItemsOwners = $scope.groupToPages($scope.groupingOwners);
-                        $scope.filter($scope.groupingOwners, "pagedItemsOwners", "currentPageOwners", $scope.ownersQuery, false);
-
-                    } else {
-                        // Stop loading text
-                        $scope.paginatingProgress = false;
-                        $scope.paginatingComplete = true;
-                        loadMembersList = false;
-                    }
-                    //Completes the promise and returns
-                    resolve();
-                }, function (res) {
-                    $scope.resStatus = res.status;
-                    if (res === null) {
-                        $scope.largeGrouping = true;
-                        $scope.paginatingComplete = false;
-                        $scope.paginatingProgress = false;
-                    } else if (res.statusCode === 403) {
-                        $scope.createOwnerErrorModal();
-                    } else {
-                        $scope.createApiErrorModal();
-                    }
-                    //stops while loop and completes promise then returns
-                    loadMembersList = false;
-                    resolve();
-                })
-            );
-        };
+        // $scope.getPages = function (groupingPath, page, size, sortString, isAscending) {
+        //
+        //     /**
+        //      * Promise returned so that the async/await call can be completed
+        //      * Which will only complete if resolve is called
+        //      * Resolve will be called based on 2 accounts:
+        //      *    1) groupingPath has changed so async call needs to be terminated before starting to load new
+        //      * groupingPath
+        //      *    2) All members in a grouping have been loaded
+        //      */
+        //     return new Promise((resolve) =>
+        //         groupingsService.getGrouping(groupingPath, page, size, sortString, isAscending, function (res) {
+        //
+        //             // Keep loading members till there are no members left and resolve promise
+        //             if (res.basis.members.length !== 0 || res.include.members.length !== 0 ||
+        //                 res.exclude.members.length !== 0 || res.composite.members.length !== 0 || res.owners.members.length !== 0) {
+        //
+        //                 $scope.groupingBasis = combineGroupMembers($scope.groupingBasis, res.basis.members);
+        //                 $scope.filter($scope.groupingBasis, "pagedItemsBasis", "currentPageBasis", $scope.basisQuery, false);
+        //
+        //                 //Gets members in the include group
+        //                 $scope.groupingInclude = combineGroupMembers($scope.groupingInclude, res.include.members);
+        //                 $scope.filter($scope.groupingInclude, "pagedItemsInclude", "currentPageInclude", $scope.includeQuery, false);
+        //
+        //                 //Gets members in the exclude group
+        //                 $scope.groupingExclude = combineGroupMembers($scope.groupingExclude, res.exclude.members);
+        //                 $scope.filter($scope.groupingExclude, "pagedItemsExclude", "currentPageExclude", $scope.excludeQuery, false);
+        //
+        //                 //Gets members in grouping
+        //                 $scope.groupingMembers = combineGroupMembers($scope.groupingMembers, res.composite.members);
+        //                 $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, false);
+        //
+        //                 //Gets owners of the grouping
+        //                 $scope.groupingOwners = combineGroupMembers($scope.groupingOwners, res.owners.members);
+        //                 $scope.pagedItemsOwners = $scope.groupToPages($scope.groupingOwners);
+        //                 $scope.filter($scope.groupingOwners, "pagedItemsOwners", "currentPageOwners", $scope.ownersQuery, false);
+        //
+        //             } else {
+        //                 // Stop loading text
+        //                 $scope.paginatingProgress = false;
+        //                 $scope.paginatingComplete = true;
+        //                 loadMembersList = false;
+        //             }
+        //             //Completes the promise and returns
+        //             resolve();
+        //         }, function (res) {
+        //             $scope.resStatus = res.status;
+        //             if (res === null) {
+        //                 $scope.largeGrouping = true;
+        //                 $scope.paginatingComplete = false;
+        //                 $scope.paginatingProgress = false;
+        //             } else if (res.statusCode === 403) {
+        //                 $scope.createOwnerErrorModal();
+        //             } else {
+        //                 $scope.createApiErrorModal();
+        //             }
+        //             //stops while loop and completes promise then returns
+        //             loadMembersList = false;
+        //             resolve();
+        //         })
+        //     );
+        // };
 
         /**
          * Check the length of the text string entered in the description form box, for error handling of max length
@@ -554,36 +582,36 @@
          * Check if the members in the group are in the basis group.
          * @param {object[]} group - the group to check
          */
-        $scope.addInBasis = function (group) {
-            _.forEach(group, function (member) {
-                const memberUhUuid = member.uhUuid;
-                member.inBasis = _.some($scope.groupingBasis, { uhUuid: memberUhUuid })
-                    ? "Yes"
-                    : "No";
-            });
-        };
+        // $scope.addInBasis = function (group) {
+        //     _.forEach(group, function (member) {
+        //         const memberUhUuid = member.uhUuid;
+        //         member.inBasis = _.some($scope.groupingBasis, { uhUuid: memberUhUuid })
+        //             ? "Yes"
+        //             : "No";
+        //     });
+        // };
 
 
         /**
          * Check what lists a member in a grouping are in.
          * @param {object[]} compositeGroup - the composite / all members group
          */
-        $scope.addWhereListed = function (compositeGroup) {
-            _.forEach(compositeGroup, function (member) {
-
-                const memberUhUuid = member.uhUuid;
-                if (_.some($scope.groupingBasis, { uhUuid: memberUhUuid })) {
-
-                    member.whereListed = "Basis";
-                }
-
-                if (_.some($scope.groupingInclude, { uhUuid: memberUhUuid })) {
-                    member.whereListed = _.isUndefined(member.whereListed)
-                        ? "Include"
-                        : "Basis & Include";
-                }
-            });
-        };
+        // $scope.addWhereListed = function (compositeGroup) {
+        //     _.forEach(compositeGroup, function (member) {
+        //
+        //         const memberUhUuid = member.uhUuid;
+        //         if (_.some($scope.groupingBasis, { uhUuid: memberUhUuid })) {
+        //
+        //             member.whereListed = "Basis";
+        //         }
+        //
+        //         if (_.some($scope.groupingInclude, { uhUuid: memberUhUuid })) {
+        //             member.whereListed = _.isUndefined(member.whereListed)
+        //                 ? "Include"
+        //                 : "Basis & Include";
+        //         }
+        //     });
+        // };
 
         /**
          * Launch a modal containing a browse local file system for import button.
