@@ -36,6 +36,111 @@
             },
 
             /**
+             * Get page of a grouping.
+             * @param {String} path - The path to the grouping.
+             * @param {Number} page - The number to fetch.
+             * @param {Number} size - The size data chunk to be fetched.
+             * @param {String} sortString - String to base sort off of.
+             * @param isAscending - On true the data returns in ascending order.
+             * @param onSuccess - Function to be called if HTTP request returns as a success.
+             * @param onError - Function to be called if HTTP request returns an error.
+             */
+            retrieveOwners(path, page, size, sortString, isAscending, onSuccess, onError) {
+                let euc = encodeURIComponent;
+                let endpoint = BASE_URL + "groupings/retrieveOwners/" + path + "?";
+                let params = { page, size, sortString, isAscending };
+                let query = Object.keys(params)
+                    .map((k) => euc(k) + "=" + euc(params[k]))
+                    .join("&");
+                endpoint = endpoint + query;
+                dataProvider.loadData(endpoint, onSuccess, onError);
+            },
+
+            /**
+             * Get page of a grouping.
+             * @param {String} path - The path to the grouping.
+             * @param {Number} page - The number to fetch.
+             * @param {Number} size - The size data chunk to be fetched.
+             * @param {String} sortString - String to base sort off of.
+             * @param isAscending - On true the data returns in ascending order.
+             * @param onSuccess - Function to be called if HTTP request returns as a success.
+             * @param onError - Function to be called if HTTP request returns an error.
+             */
+            retrieveComposite(path, page, size, sortString, isAscending, onSuccess, onError) {
+                let euc = encodeURIComponent;
+                let endpoint = BASE_URL + "groupings/retrieveComposite/" + path + "?";
+                let params = { page, size, sortString, isAscending };
+                let query = Object.keys(params)
+                    .map((k) => euc(k) + "=" + euc(params[k]))
+                    .join("&");
+                endpoint = endpoint + query;
+                dataProvider.loadData(endpoint, onSuccess, onError);
+            },
+
+            /**
+             * Get page of a grouping.
+             * @param {String} path - The path to the grouping.
+             * @param {Number} page - The number to fetch.
+             * @param {Number} size - The size data chunk to be fetched.
+             * @param {String} sortString - String to base sort off of.
+             * @param isAscending - On true the data returns in ascending order.
+             * @param onSuccess - Function to be called if HTTP request returns as a success.
+             * @param onError - Function to be called if HTTP request returns an error.
+             */
+            retrieveBasis(path, page, size, sortString, isAscending, onSuccess, onError) {
+                let euc = encodeURIComponent;
+                let endpoint = BASE_URL + "groupings/retrieveBasis/" + path + "?";
+                let params = { page, size, sortString, isAscending };
+                let query = Object.keys(params)
+                    .map((k) => euc(k) + "=" + euc(params[k]))
+                    .join("&");
+                endpoint = endpoint + query;
+                dataProvider.loadData(endpoint, onSuccess, onError);
+            },
+
+            /**
+             * Get page of a grouping.
+             * @param {String} path - The path to the grouping.
+             * @param {Number} page - The number to fetch.
+             * @param {Number} size - The size data chunk to be fetched.
+             * @param {String} sortString - String to base sort off of.
+             * @param isAscending - On true the data returns in ascending order.
+             * @param onSuccess - Function to be called if HTTP request returns as a success.
+             * @param onError - Function to be called if HTTP request returns an error.
+             */
+            retrieveInclude(path, page, size, sortString, isAscending, onSuccess, onError) {
+                let euc = encodeURIComponent;
+                let endpoint = BASE_URL + "groupings/retrieveInclude/" + path + "?";
+                let params = { page, size, sortString, isAscending };
+                let query = Object.keys(params)
+                    .map((k) => euc(k) + "=" + euc(params[k]))
+                    .join("&");
+                endpoint = endpoint + query;
+                dataProvider.loadData(endpoint, onSuccess, onError);
+            },
+
+            /**
+             * Get page of a grouping.
+             * @param {String} path - The path to the grouping.
+             * @param {Number} page - The number to fetch.
+             * @param {Number} size - The size data chunk to be fetched.
+             * @param {String} sortString - String to base sort off of.
+             * @param isAscending - On true the data returns in ascending order.
+             * @param onSuccess - Function to be called if HTTP request returns as a success.
+             * @param onError - Function to be called if HTTP request returns an error.
+             */
+            retrieveExclude(path, page, size, sortString, isAscending, onSuccess, onError) {
+                let euc = encodeURIComponent;
+                let endpoint = BASE_URL + "groupings/retrieveExclude/" + path + "?";
+                let params = { page, size, sortString, isAscending };
+                let query = Object.keys(params)
+                    .map((k) => euc(k) + "=" + euc(params[k]))
+                    .join("&");
+                endpoint = endpoint + query;
+                dataProvider.loadData(endpoint, onSuccess, onError);
+            },
+
+            /**
              * Update the description of grouping at path.
              * @param data {String}
              * @param path {String}

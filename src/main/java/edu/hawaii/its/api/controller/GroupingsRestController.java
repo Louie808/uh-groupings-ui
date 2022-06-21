@@ -423,6 +423,94 @@ public class GroupingsRestController {
                 HttpMethod.GET);
     }
 
+        /**
+     * Fetch a page of the specified Grouping.
+     */
+    @GetMapping(value = "/groupings/retrieveOwners/{path:.+}")
+    public ResponseEntity<String> retrieveOwners(Principal principal,
+            @PathVariable String path,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortString,
+            @RequestParam(required = false) Boolean isAscending) {
+        logger.info("Entered REST grouping...");
+        String baseUri = String.format(API_2_1_BASE + "/groupings/retrieveOwners/%s?", path);
+        URIBuilder uri = new URIBuilder(baseUri);
+        uri.addParameter("page", String.valueOf(page))
+                .addParameter("size", String.valueOf(size))
+                .addParameter("sortString", sortString)
+                .addParameter("isAscending", String.valueOf(isAscending));
+        return httpRequestService.makeApiRequest(principal.getName(), uri.toString(), HttpMethod.GET);
+    }
+
+    @GetMapping(value = "/groupings/retrieveComposite/{path:.+}")
+    public ResponseEntity<String> retrieveComposite(Principal principal,
+            @PathVariable String path,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortString,
+            @RequestParam(required = false) Boolean isAscending) {
+        logger.info("Entered REST grouping...");
+        String baseUri = String.format(API_2_1_BASE + "/groupings/retrieveComposite/%s?", path);
+        URIBuilder uri = new URIBuilder(baseUri);
+        uri.addParameter("page", String.valueOf(page))
+                .addParameter("size", String.valueOf(size))
+                .addParameter("sortString", sortString)
+                .addParameter("isAscending", String.valueOf(isAscending));
+        return httpRequestService.makeApiRequest(principal.getName(), uri.toString(), HttpMethod.GET);
+    }
+
+    @GetMapping(value = "/groupings/retrieveBasis/{path:.+}")
+    public ResponseEntity<String> retrieveBasis(Principal principal,
+            @PathVariable String path,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortString,
+            @RequestParam(required = false) Boolean isAscending) {
+        logger.info("Entered REST grouping...");
+        String baseUri = String.format(API_2_1_BASE + "/groupings/retrieveBasis/%s?", path);
+        URIBuilder uri = new URIBuilder(baseUri);
+        uri.addParameter("page", String.valueOf(page))
+                .addParameter("size", String.valueOf(size))
+                .addParameter("sortString", sortString)
+                .addParameter("isAscending", String.valueOf(isAscending));
+        return httpRequestService.makeApiRequest(principal.getName(), uri.toString(), HttpMethod.GET);
+    }
+
+    @GetMapping(value = "/groupings/retrieveInclude/{path:.+}")
+    public ResponseEntity<String> retrieveInclude(Principal principal,
+            @PathVariable String path,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortString,
+            @RequestParam(required = false) Boolean isAscending) {
+        logger.info("Entered REST grouping...");
+        String baseUri = String.format(API_2_1_BASE + "/groupings/retrieveInclude/%s?", path);
+        URIBuilder uri = new URIBuilder(baseUri);
+        uri.addParameter("page", String.valueOf(page))
+                .addParameter("size", String.valueOf(size))
+                .addParameter("sortString", sortString)
+                .addParameter("isAscending", String.valueOf(isAscending));
+        return httpRequestService.makeApiRequest(principal.getName(), uri.toString(), HttpMethod.GET);
+    }
+
+    @GetMapping(value = "/groupings/retrieveExclude/{path:.+}")
+    public ResponseEntity<String> retrieveExclude(Principal principal,
+            @PathVariable String path,
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size,
+            @RequestParam(required = false) String sortString,
+            @RequestParam(required = false) Boolean isAscending) {
+        logger.info("Entered REST grouping...");
+        String baseUri = String.format(API_2_1_BASE + "/groupings/retrieveExclude/%s?", path);
+        URIBuilder uri = new URIBuilder(baseUri);
+        uri.addParameter("page", String.valueOf(page))
+                .addParameter("size", String.valueOf(size))
+                .addParameter("sortString", sortString)
+                .addParameter("isAscending", String.valueOf(isAscending));
+        return httpRequestService.makeApiRequest(principal.getName(), uri.toString(), HttpMethod.GET);
+    }
+
     /**
      * Update the description of a grouping at path.
      */
