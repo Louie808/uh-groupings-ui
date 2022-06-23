@@ -5,21 +5,21 @@
         <li class="nav-item mx-auto" data-toggle="tooltip" data-placement="right"
             th:title="#{screen.message.common.tooltip.nav.members}">
             <a data-toggle="tab" href="#all" class="nav-link rounded-circle active"
-               aria-label="All Members" ng-click="retrieveComposite('')">
+               aria-label="All Members" ng-click="getGroupingInformation('')">
                 <i class="fa fa-users" aria-hidden="true"></i>
             </a>
         </li>
         <li class="nav-item mx-auto pt-0 pt-2-md" data-toggle="tooltip" data-placement="right"
             th:title="#{screen.message.common.tooltip.nav.basis}">
             <a data-toggle="tab" href="#basis" class="nav-link rounded-circle"
-               aria-label="Basis Members" ng-click="retrieveBasis(':basis')">
+               aria-label="Basis Members" ng-click="getGroupingInformation(':basis')">
                 <i class="far fa-id-card" aria-hidden="true"></i>
             </a>
         </li>
         <li class="nav-item mx-auto pt-0 pt-2-md" data-toggle="tooltip" data-placement="right"
             th:title="#{screen.message.common.tooltip.nav.include}">
             <a data-toggle="tab" href="#include" class="nav-link rounded-circle"
-               aria-label="Include Members" ng-click="retrieveInclude(':include');
+               aria-label="Include Members" ng-click="getGroupingInformation(':include');
                  transferMembersFromPageToCheckboxObject(groupingInclude)">
                 <i class="fas fa-user-plus" aria-hidden="false"></i>
             </a>
@@ -27,7 +27,7 @@
         <li class="nav-item mx-auto pt-0 pt-2-md" data-toggle="tooltip" data-placement="right"
             th:title="#{screen.message.common.tooltip.nav.exclude}">
             <a data-toggle="tab" href="#exclude" class="nav-link rounded-circle"
-               aria-label="Exclude Members" ng-click="retrieveExclude(':exclude');
+               aria-label="Exclude Members" ng-click="getGroupingInformation(':exclude');
                  transferMembersFromPageToCheckboxObject(groupingExclude)">
                 <i class="fas fa-user-minus" aria-hidden="true"></i>
             </a>
@@ -35,7 +35,7 @@
         <li class="nav-item mx-auto pt-0 pt-2-md" data-toggle="tooltip" data-placement="right"
             th:title="#{screen.message.common.tooltip.nav.owners}">
             <a data-toggle="tab" href="#owners" class="nav-link rounded-circle"
-               aria-label="Grouping Owners" ng-click="retrieveOwners(':owners')">
+               aria-label="Grouping Owners" ng-click="getGroupingInformation(':owners')">
                 <i class="fa fa-star fa-fw" aria-hidden="true"></i>
             </a>
         </li>
