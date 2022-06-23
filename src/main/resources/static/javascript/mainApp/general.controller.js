@@ -217,41 +217,48 @@
 
         $scope.getGroupingInformation = (selectedGroup) => { 
             const groupingPath = `${$scope.selectedGrouping.path}${selectedGroup}`
+            $scope.loading = false;
+            $scope.paginatingComplete = true;
+            $scope.paginatingProgress = false;
             switch(selectedGroup) {
                 case ":owners": {
-                    groupingsService.getListOfMembers(groupingPath, 1, PAGE_SIZE, "name", true, async function(res) {
+                    groupingsService.getListOfMembers(groupingPath, 1, 20_000, "name", true, async function(res) {
                         $scope.groupingOwners = setGroupMembers(res);
                         $scope.pagedItemsOwners = $scope.groupToPages($scope.groupingOwners);
                         $scope.filter($scope.groupingOwners, "pagedItemsOwners", "currentPageMembers", $scope.ownersQuery, true);
-                    }, (res) => {
-                        console.log(res);
+                    }, function (res) {
+                        $scope.resStatus = res.status;
+                        $scope.createApiErrorModal();
                     });
                     break;
                 }
                 case ":include": {
-                    groupingsService.getListOfMembers(groupingPath, 1, PAGE_SIZE, "name", true, async function(res) {
+                    groupingsService.getListOfMembers(groupingPath, 1, 20_000, "name", true, async function(res) {
                         $scope.groupingInclude = setGroupMembers(res);
                         $scope.filter($scope.groupingInclude, "pagedItemsInclude", "currentPageInclude", $scope.includeQuery, true);
-                    }, (res) => {
-                        console.log(res);
+                    }, function (res) {
+                        $scope.resStatus = res.status;
+                        $scope.createApiErrorModal();
                     });
                     break;
                 }
                 case ":exclude": {
-                    groupingsService.getListOfMembers(groupingPath, 1, PAGE_SIZE, "name", true, async function(res) {
+                    groupingsService.getListOfMembers(groupingPath, 1, 20_000, "name", true, async function(res) {
                         $scope.groupingExclude = setGroupMembers(res);
                         $scope.filter($scope.groupingExclude, "pagedItemsExclude", "currentPageExclude", $scope.excludeQuery, true);
-                    }, (res) => {
-                        console.log(res);
+                    }, function (res) {
+                        $scope.resStatus = res.status;
+                        $scope.createApiErrorModal();
                     });
                     break;
                 }
                 case ":basis": {
-                    groupingsService.getListOfMembers(groupingPath, 1, PAGE_SIZE, "name", true, async function(res) {
+                    groupingsService.getListOfMembers(groupingPath, 1, 20_000, "name", true, async function(res) {
                         $scope.groupingBasis = setGroupMembers(res);
                         $scope.filter($scope.groupingBasis, "pagedItemsBasis", "currentPageBasis", $scope.basisQuery, true);
-                    }, (res) => {
-                        console.log(res);
+                    }, function (res) {
+                        $scope.resStatus = res.status;
+                        $scope.createApiErrorModal();
                     });
                     break;
                 }
@@ -259,8 +266,9 @@
                     groupingsService.getListOfMembers(groupingPath, 1, 20_000, "name", true, async function(res) {
                         $scope.groupingMembers = setGroupMembers(res);
                         $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, true);
-                    }, (res) => {
-                        console.log(res);
+                    }, function (res) {
+                        $scope.resStatus = res.status;
+                        $scope.createApiErrorModal();
                     });
                     break;
                 }
@@ -535,7 +543,7 @@
                     // Refreshes the groupings list and the admins list
                     $scope.init();
                 } else {
-                    $scope.getGroupingInformation();
+                    $scope.getGroupingInformation("");
                 }
             });
         };
@@ -912,7 +920,7 @@
                     // Refreshes the groupings list and the admins list
                     $scope.init();
                 } else {
-                    $scope.getGroupingInformation();
+                    $scope.getGroupingInformation(`:${options.listName.toLowerCase()}`);
                     $scope.syncDestArray = [];
                 }
             });
@@ -1224,7 +1232,7 @@
                 if ($scope.listName === "admins") {
                     $scope.init();
                 } else {
-                    $scope.getGroupingInformation();
+                    $scope.getGroupingInformation(`:${listName.toLowerCase()}`);
                 }
             });
         };
@@ -1264,12 +1272,13 @@
         /**
          * Handler for successfully removing a member from the Include or Exclude group.
          */
+        //Todo: have to split this into two functions
         function handleMemberRemove() {
-            $scope.getGroupingInformation();
+            $scope.getGroupingInformation(":exclude");
             $scope.syncDestArray = [];
             $scope.membersToModify = [];
         }
-
+        //Todo: have to split this into two functions
         function handleGroupingReset() {
             $scope.getGroupingInformation();
             $scope.loading = false;
@@ -1302,7 +1311,7 @@
         function handleOwnerRemove() {
             // Reload the grouping if you are not removing yourself, or if deleting anyone from the admins page
             if ($scope.currentUser !== $scope.userToRemove.username || !_.isUndefined($scope.adminsList)) {
-                $scope.getGroupingInformation();
+                $scope.getGroupingInformation(":owners");
                 $scope.syncDestArray = [];
             } else if ($scope.currentUser === $scope.userToRemove.username) {
                 // Removing self from last grouping owned -> redirect to home page and then logout
