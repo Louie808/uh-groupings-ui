@@ -217,9 +217,9 @@
 
         $scope.getGroupingInformation = (selectedGroup) => { 
             const groupingPath = `${$scope.selectedGrouping.path}${selectedGroup}`
-            $scope.loading = false;
-            $scope.paginatingComplete = true;
-            $scope.paginatingProgress = false;
+            $scope.descriptionLoaded = true;
+            $scope.paginatingProgress = true;
+            $scope.paginatingComplete = false;
             switch(selectedGroup) {
                 case ":owners": {
                     groupingsService.getListOfMembers(groupingPath, 1, 20_000, "name", true, async function(res) {
@@ -263,16 +263,16 @@
                     break;
                 }
                 default: {
-                    groupingsService.getListOfMembers(groupingPath, 1, 20_000, "name", true, async function(res) {
+                    groupingsService.getListOfMembers(groupingPath, 1, 2, "name", true, async function(res) {
                         $scope.groupingMembers = setGroupMembers(res);
                         $scope.filter($scope.groupingMembers, "pagedItemsMembers", "currentPageMembers", $scope.membersQuery, true);
                     }, function (res) {
                         $scope.resStatus = res.status;
                         $scope.createApiErrorModal();
                     });
-                    break;
                 }
             }
+            $scope.paginatingComplete = true;
         }
 
         /**
