@@ -2428,10 +2428,19 @@ describe("GeneralController", () => {
 
     describe("exportGroupToCsv", () => {
         describe("user exports a grouping to csv", () => {
-            it("should start with the correct column headers", () => {
-                const csv = scope.exportGroupToCsv(scope.groupingBasis, scope.selectedGrouping.name, "members");
+            it("should call convertListToCsv", () => {
+                scope.listName = "Include";
+                spyOn(scope, "convertListToCsv");
+                scope.exportGroupToCsv(scope.groupingInclude, scope.selectedGrouping.name, scope.listName);
+                expect(scope.convertListToCsv).toHaveBeenCalled();
+            })
 
-                expect(csv.indexOf("Last,First,Username,UH Number,Email\r\n")).toEqual(0);
+            it("should start with the correct column headers", () => {
+                // scope.listName = "Include";
+                // const filePath = "${user.home}/Downloads/" + selectedGrouping.name + "_" + scope.listName + "_list.csv";
+                scope.exportGroupToCsv(scope.groupingInclude, scope.selectedGrouping.name, scope.listName);
+                // expect(File(filePath).exists()).toBeTrue();
+                // expect(csv.indexOf("Last,First,Username,UH Number,Email\r\n")).toEqual(0);
             })
         })
     })
