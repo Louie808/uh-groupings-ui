@@ -2426,6 +2426,16 @@ describe("GeneralController", () => {
         });
     });
     
+    describe("exportGroupToCsv", () => {
+        describe("user exports a grouping to csv", () => {
+            it("should start with the correct column headers", () => {
+                const csv = scope.exportGroupToCsv(scope.groupingBasis, scope.selectedGrouping.name, "members");
+
+                expect(csv.indexOf("Last,First,Username,UH Number,Email\r\n")).toEqual(0);
+            })
+        })
+    })
+    
     describe("convertListToCsv", () => {
         describe("user exports a list with members", () => {
             it("should start with the correct column headers", () => {
