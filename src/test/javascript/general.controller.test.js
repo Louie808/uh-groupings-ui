@@ -577,6 +577,62 @@ describe("GeneralController", () => {
         });
     });
 
+    describe("readTextFile", () => {
+
+        let file, parts;
+
+        beforeEach(() => {
+            scope.listName = "Include";
+
+            scope.groupingInclude = [
+                {
+                    name: "User One",
+                    username: "user1",
+                    uhUuid: "00000001",
+                    firstName: "User",
+                    lastName: "One"
+                },
+                {
+                    name: "User Two",
+                    username: "user2",
+                    uhUuid: "00000002",
+                    firstName: "User",
+                    lastName: "Two"
+                },
+                {
+                    name: "User Three",
+                    username: "user3",
+                    uhUuid: "00000003",
+                    firstName: "User",
+                    lastName: "Three"
+                }
+            ];
+
+            parts = [
+                new Blob(["user4"], {
+                    type: 'text/plain'
+                }),
+            ];
+
+            file = new File(parts, 'sample.txt', {
+                type: "text/plain"
+            });
+        });
+
+        it("should read file with FileReader", () => {
+            spyOn(window, 'FileReader').and.returnValue({
+                onload: function() {
+                },
+                readAsText : function() {
+                }
+            });
+
+            scope.readTextFile(file);
+            expect(window.FileReader).toHaveBeenCalled();
+        });
+
+    });
+
     describe("getPersonProps", () => {
         beforeEach(() => {
             scope.personProps = "";
