@@ -2425,7 +2425,7 @@ describe("GeneralController", () => {
             expect(uibModal.open).toHaveBeenCalled();
         });
     });
-    
+
     describe("exportGroupToCsv", () => {
         describe("user exports a grouping to csv", () => {
             it("should start with the correct column headers", () => {
