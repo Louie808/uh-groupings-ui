@@ -92,6 +92,7 @@
 
         $scope.groupingCSV = [];
         $scope.groupNameCSV = [];
+        $scope.exportLink = "#";
 
         $scope.resetInclude = [];
         $scope.resetExclude = [];
@@ -2117,13 +2118,17 @@
             csv = "data:text/csv;charset=utf-8," + csv;
             data = encodeURI(csv);
 
-            link = document.createElement("a");
+            $scope.createATag(data, filename);
+        };
+
+        $scope.createATag = function (data, filename) {
+            let link = document.createElement("a");
             link.setAttribute("href", data);
             link.setAttribute("download", filename);
             document.body.appendChild(link);
             link.click();
             document.body.removeChild(link);
-        };
+        }
 
         /**
          * Converts the data in the table into comma-separated values.

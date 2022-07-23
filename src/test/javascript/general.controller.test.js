@@ -2432,36 +2432,12 @@ describe("GeneralController", () => {
                 spyOn(scope, "convertListToCsv");
                 scope.exportGroupToCsv(scope.groupingMembers, scope.selectedGrouping.name, 'members');
                 expect(scope.convertListToCsv).toHaveBeenCalled();
-            })
+            });
 
-            it("should download a file", () => {
-                const spyObj = jasmine.createSpyObj('a', ['setAttribute', 'click']);
-                spyOn(document, "createElement").and.returnValue(spyObj);
-                spyOn(document["body"], 'appendChild');
-                spyOn(document["body"], 'removeChild');
-
+            it("should call createATag", () => {
+                spyOn(scope, "createATag");
                 scope.exportGroupToCsv(scope.groupingMembers, scope.selectedGrouping.name, 'members');
-
-                expect(document.createElement).toHaveBeenCalledTimes(1);
-                expect(document.createElement).toHaveBeenCalledWith('a');
-
-                expect(spyObj.setAttribute).toHaveBeenCalledTimes(2);
-                expect(spyObj.setAttribute).toHaveBeenCalledWith("href", "data:text/csv;charset=utf-8,Last,First,Username,UH%20Number,Email%0D%0AOne,User,user1,00000001,user1@hawaii.edu%0D%0ATwo,User,user2,00000002,user2@hawaii.edu%0D%0AThree,User,user3,00000003,user3@hawaii.edu%0D%0ASeven,User,user7,00000007,user7@hawaii.edu%0D%0A");
-                expect(spyObj.setAttribute).toHaveBeenCalledWith("download", "grouping1:members_list.csv");
-
-                expect(spyObj.click).toHaveBeenCalledTimes(1);
-                expect(spyObj.click).toHaveBeenCalledWith();
-
-                expect(document["body"].appendChild).toHaveBeenCalledTimes(1);
-                expect(document["body"].appendChild).toHaveBeenCalledWith(spyObj);
-                expect(document["body"].removeChild).toHaveBeenCalledTimes(1);
-                expect(document["body"].removeChild).toHaveBeenCalledWith(spyObj);
-            })
-
-            xit("should have correct contents", () => {
-                const filePath = "${user.home}/Downloads/" + scope.selectedGrouping.name + "_members_list.csv";
-                scope.exportGroupToCsv(scope.groupingMembers, scope.selectedGrouping.name, "members");
-                expect(File(filePath).exists()).toBeTrue();
+                expect(scope.createATag).toHaveBeenCalled();
             })
         })
     })
