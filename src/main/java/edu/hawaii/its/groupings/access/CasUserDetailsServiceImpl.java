@@ -1,5 +1,7 @@
 package edu.hawaii.its.groupings.access;
 
+import java.util.Map;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.jasig.cas.client.validation.Assertion;
@@ -7,15 +9,13 @@ import org.springframework.security.cas.userdetails.AbstractCasAssertionUserDeta
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
-import java.util.Map;
+public class CasUserDetailsServiceImpl extends AbstractCasAssertionUserDetailsService {
 
-public class CasUserDetailsServiceImplj extends AbstractCasAssertionUserDetailsService {
-
-    private static final Log logger = LogFactory.getLog(CasUserDetailsServiceImplj.class);
+    private static final Log logger = LogFactory.getLog(CasUserDetailsServiceImpl.class);
 
     private UserBuilder userBuilder;
 
-    public CasUserDetailsServiceImplj(UserBuilder userBuilder) {
+    public CasUserDetailsServiceImpl(UserBuilder userBuilder) {
         super();
         this.userBuilder = userBuilder;
     }
