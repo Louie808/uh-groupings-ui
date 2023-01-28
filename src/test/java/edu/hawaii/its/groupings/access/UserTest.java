@@ -1,6 +1,7 @@
 package edu.hawaii.its.groupings.access;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -12,7 +13,9 @@ import java.util.Set;
 import static org.hamcrest.CoreMatchers.*;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+//import static org.junit.Assert.assertThat;
+import static org.hamcrest.MatcherAssert.assertThat;
+
 
 public class UserTest {
 
@@ -21,12 +24,12 @@ public class UserTest {
         Set<GrantedAuthority> authorities = new LinkedHashSet<>();
 
         User user = new User("a", authorities);
-        assertNotNull(user);
+        Assertions.assertNotNull(user);
 
         assertThat(user.getUsername(), is("a"));
         assertThat(user.getUid(), is("a"));
-        assertNull(user.getUhUuid());
-        assertNull(user.getAttributes());
+        Assertions.assertNull(user.getUhUuid());
+        Assertions.assertNull(user.getAttributes());
 
         authorities = new LinkedHashSet<>();
         authorities.add(new SimpleGrantedAuthority(Role.ANONYMOUS.longName()));
@@ -35,7 +38,7 @@ public class UserTest {
         assertThat(user.getUsername(), is("b"));
         assertThat(user.getUid(), is("b"));
         assertThat(user.getUhUuid(), is("12345"));
-        assertNull(user.getAttributes());
+        Assertions.assertNull(user.getAttributes());
 
         user.setAttributes(new UhCasAttributes());
         assertThat(user.getName(), is(""));

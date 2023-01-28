@@ -1,9 +1,10 @@
 package edu.hawaii.its.groupings.access;
 
 import org.jasig.cas.client.authentication.SimplePrincipal;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import edu.hawaii.its.api.controller.GroupingsRestController;
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
@@ -28,7 +29,7 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 
-@RunWith(SpringRunner.class)
+//@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SpringBootWebApplication.class})
 public class AuthorizationServiceTest {
 
@@ -44,7 +45,7 @@ public class AuthorizationServiceTest {
     @Autowired
     private WebApplicationContext context;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         webAppContextSetup(context)
                 .apply(springSecurity())
@@ -107,7 +108,7 @@ public class AuthorizationServiceTest {
         assertTrue(roleHolder.contains(Role.ADMIN));
     }
 
-    @Ignore
+    @Disabled
     @Test
     public void fetch() {
         RoleHolder roleHolder = authorizationService.fetchRoles("10000001", "test");

@@ -33,9 +33,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -57,7 +56,6 @@ import edu.hawaii.its.groupings.controller.WithMockUhUser;
 import edu.hawaii.its.groupings.exceptions.ApiServerHandshakeException;
 import edu.hawaii.its.groupings.util.JsonUtil;
 
-@RunWith(SpringRunner.class)
 @ActiveProfiles("localTest")
 @SpringBootTest(classes = { SpringBootWebApplication.class })
 public class GroupingsRestControllerTest {
@@ -85,7 +83,7 @@ public class GroupingsRestControllerTest {
 
     private MockMvc mockMvc;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         mockMvc = webAppContextSetup(context)
                 .apply(springSecurity())
