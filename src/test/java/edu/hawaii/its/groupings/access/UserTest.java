@@ -1,6 +1,6 @@
 package edu.hawaii.its.groupings.access;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

@@ -6,14 +6,14 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
-import org.junit.Test;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class GroupingServiceResultExceptionTest extends GroupingsServiceResult {
 
     private GroupingsServiceResultException groupingsServiceResultException;
 
-    @Before
+    @BeforeEach
     public void setUp(){
         groupingsServiceResultException = new GroupingsServiceResultException();
     }

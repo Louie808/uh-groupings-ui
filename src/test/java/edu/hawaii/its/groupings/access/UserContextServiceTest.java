@@ -2,7 +2,7 @@ package edu.hawaii.its.groupings.access;
 
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
 import edu.hawaii.its.groupings.controller.WithMockUhUser;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;

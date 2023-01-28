@@ -5,7 +5,7 @@ import org.jasig.cas.client.authentication.AttributePrincipalImpl;
 import org.jasig.cas.client.authentication.SimplePrincipal;
 import org.jasig.cas.client.validation.Assertion;
 import org.jasig.cas.client.validation.AssertionImpl;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import edu.hawaii.its.api.controller.GroupingsRestController;
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;

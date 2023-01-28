@@ -1,7 +1,7 @@
 package edu.hawaii.its.api.type;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
@@ -14,7 +14,7 @@ public class GroupingsHTTPExceptionTest extends RuntimeException {
 
     private GroupingsHTTPException groupingsHTTPexception;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         groupingsHTTPexception = new GroupingsHTTPException();
     }

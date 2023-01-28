@@ -1,9 +1,9 @@
 package edu.hawaii.its.groupings.access;
 
 import org.jasig.cas.client.authentication.SimplePrincipal;
-import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.Ignore;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 import edu.hawaii.its.api.controller.GroupingsRestController;
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
@@ -44,7 +44,7 @@ public class AuthorizationServiceTest {
     @Autowired
     private WebApplicationContext context;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         webAppContextSetup(context)
                 .apply(springSecurity())

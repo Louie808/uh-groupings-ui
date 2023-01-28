@@ -4,8 +4,8 @@ import edu.hawaii.its.api.controller.GroupingsRestController;
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
 import edu.hawaii.its.groupings.controller.WithMockUhUser;
 import org.jasig.cas.client.authentication.SimplePrincipal;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,7 +52,7 @@ public class UserBuilderTest {
     @Autowired
     private WebApplicationContext context;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         webAppContextSetup(context)
                 .apply(springSecurity())
