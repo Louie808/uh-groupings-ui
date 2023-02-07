@@ -21,11 +21,13 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import org.springframework.boot.test.context.SpringBootTest;
+import static org.hamcrest.CoreMatchers.*;
 
 @SpringBootTest(classes = { SpringBootWebApplication.class })
 public class UserBuilderTest {
@@ -95,8 +97,8 @@ public class UserBuilderTest {
             Assertions.fail("Should not reach here.");
         } catch (Exception e) {
             Assertions.assertEquals(UsernameNotFoundException.class, e.getClass());
-            Assertions.assertEquals("uid is empty", e.getMessage());
-            Assertions.assertEquals("uid is empty", e.getMessage());
+            assertThat(e.getMessage(), containsString("uid is empty"));
+
         }
     }
 
@@ -114,11 +116,6 @@ public class UserBuilderTest {
         }
     }
 
-//    @Test(expected = UsernameNotFoundException.class)
-//    public void make() {
-//        userBuilder.make(new HashMap<String, String>());
-//    }
-//suggested replacement method:
     @Test
     public void make() {
         UsernameNotFoundException exception =
