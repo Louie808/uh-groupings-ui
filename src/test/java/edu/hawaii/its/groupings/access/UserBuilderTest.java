@@ -9,13 +9,10 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.junit.jupiter.api.extension.ExtendWith;
-
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.security.Principal;
@@ -30,7 +27,6 @@ import static org.springframework.security.test.web.servlet.setup.SecurityMockMv
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import org.springframework.boot.test.context.SpringBootTest;
 
-//@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { SpringBootWebApplication.class })
 public class UserBuilderTest {
 
@@ -99,6 +95,7 @@ public class UserBuilderTest {
             Assertions.fail("Should not reach here.");
         } catch (Exception e) {
             Assertions.assertEquals(UsernameNotFoundException.class, e.getClass());
+            Assertions.assertEquals("uid is empty", e.getMessage());
             Assertions.assertEquals("uid is empty", e.getMessage());
         }
     }
