@@ -1,20 +1,13 @@
 package edu.hawaii.its.groupings.configuration;
 
 import edu.internet2.middleware.grouperClient.util.GrouperClientConfig;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-
-
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = {SpringBootWebApplication.class})
 public class GrouperPropertyConfigurerTest {
 
@@ -26,7 +19,7 @@ public class GrouperPropertyConfigurerTest {
 
     @Test
     public void construction() {
-        assertNotNull(grouperPropertyConfigurer);
+        Assertions.assertNotNull(grouperPropertyConfigurer);
     }
 
     @Test
@@ -36,7 +29,7 @@ public class GrouperPropertyConfigurerTest {
         String testUrl = "test-url-b";
 
         String value = config.propertiesOverrideMap().get(key);
-        assertNotEquals(value, testUrl);
+        Assertions.assertNotEquals(value, testUrl);
 
         // Will cause an override of value.
         env.getSystemProperties().put(key, testUrl);
@@ -44,6 +37,6 @@ public class GrouperPropertyConfigurerTest {
         grouperPropertyConfigurer.init();
 
         value = config.propertiesOverrideMap().get(key);
-        assertThat(value, equalTo(testUrl));
+        Assertions.assertEquals(testUrl, value);
     }
 }

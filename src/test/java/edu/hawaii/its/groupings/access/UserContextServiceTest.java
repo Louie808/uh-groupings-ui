@@ -5,14 +5,9 @@ import edu.hawaii.its.groupings.controller.WithMockUhUser;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.Assert.assertNotNull;
-
-@RunWith(SpringRunner.class)
 @SpringBootTest(classes = { SpringBootWebApplication.class })
 public class UserContextServiceTest {
 
@@ -27,7 +22,7 @@ public class UserContextServiceTest {
         Assertions.assertTrue(userContextService.toString().startsWith("UserContextServiceImpl"));
 
         User user = userContextService.getCurrentUser();
-        assertNotNull(user);
+        Assertions.assertNotNull(user);
         Assertions.assertEquals("12345678", user.getUhUuid());
         Assertions.assertEquals("admin", user.getUid());
 
