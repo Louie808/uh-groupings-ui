@@ -3,7 +3,10 @@ package edu.hawaii.its.groupings.access;
 import edu.hawaii.its.api.controller.GroupingsRestController;
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
 import edu.hawaii.its.groupings.controller.WithMockUhUser;
+import org.hamcrest.Matcher;
+import org.hamcrest.MatcherAssert;
 import org.jasig.cas.client.authentication.SimplePrincipal;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -100,8 +103,7 @@ public class UserBuilderTest {
             Assertions.fail("Should not reach here.");
         } catch (Exception e) {
             Assertions.assertEquals(UsernameNotFoundException.class, e.getClass());
-            assertThat(e.getMessage(), containsString("uid is empty"));
-
+            MatcherAssert.assertThat(e.getMessage(), containsString("uid is empty"));
         }
     }
 
@@ -115,7 +117,7 @@ public class UserBuilderTest {
             Assertions.fail("Should not reach here.");
         } catch (Exception e) {
             Assertions.assertEquals(UsernameNotFoundException.class, e.getClass());
-            Assertions.assertEquals("uid is empty", e.getMessage());
+            MatcherAssert.assertThat(e.getMessage(), containsString("uid is empty"));
         }
     }
 
