@@ -1,14 +1,17 @@
 package edu.hawaii.its.groupings.controller;
 
-import org.junit.runner.RunWith;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.*;
 
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.lang.NonNull;
+import org.springframework.lang.NonNullApi;
+import org.springframework.lang.Nullable;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,7 +25,7 @@ import java.util.Iterator;
 import java.util.Locale;
 import java.util.Map;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { SpringBootWebApplication.class })
 public class ErrorControllerAdviceTest {
 
@@ -31,16 +34,16 @@ public class ErrorControllerAdviceTest {
 
     @Test
     public void nullTest() {
-        assertNotNull(errorControllerAdvice);
+        Assertions.assertNotNull(errorControllerAdvice);
     }
 
     @Test
-    public void gcWebServiceTest() throws Exception {
+    public void gcWebServiceTest() {
         Object Ro = new Object();
         GcWebServiceError Gc = new GcWebServiceError(Ro);
         errorControllerAdvice.handleGcWebServiceError(Gc);
         String gce = "<404,edu.hawaii.its.api.type.GroupingsHTTPException,[]>";
-        assertThat(errorControllerAdvice.handleGcWebServiceError(Gc).toString(), equalTo(gce));
+        MatcherAssert.assertThat(errorControllerAdvice.handleGcWebServiceError(Gc).toString(), is(gce));
     }
 
     @Test
@@ -55,7 +58,7 @@ public class ErrorControllerAdviceTest {
                 return new String[0];
             }
 
-            @Override public Iterator<String> getHeaderNames() {
+            @Override @NonNull public Iterator<String> getHeaderNames() {
                 return null;
             }
 
@@ -150,7 +153,8 @@ public class ErrorControllerAdviceTest {
         errorControllerAdvice.handleIllegalArgumentException(IAE, Req);
         String IAException = "<404,edu.hawaii.its.api.type.GroupingsHTTPException: "
                 + "Resource not available,[]>";
-        assertThat(errorControllerAdvice.handleIllegalArgumentException(IAE, Req).toString(), equalTo(IAException));
+        MatcherAssert.assertThat(errorControllerAdvice.handleIllegalArgumentException(IAE, Req).toString(),
+                is(IAException));
 
     }
 
@@ -160,7 +164,8 @@ public class ErrorControllerAdviceTest {
         errorControllerAdvice.handleUnsupportedOperationException(UOE);
         String UnOpE = "<501,edu.hawaii.its.api.type.GroupingsHTTPException: "
                 + "Method not implemented,[]>";
-        assertThat(errorControllerAdvice.handleUnsupportedOperationException(UOE).toString(), equalTo(UnOpE));
+        MatcherAssert.assertThat(errorControllerAdvice.handleUnsupportedOperationException(UOE).toString(),
+                is(UnOpE));
 
     }
 
@@ -170,7 +175,7 @@ public class ErrorControllerAdviceTest {
       errorControllerAdvice.handleException(re);
       String runtime = "<500,edu.hawaii.its.api.type.GroupingsHTTPException:"
           + " Exception,[]>";
-      assertThat(errorControllerAdvice.handleException(re).toString(), equalTo(runtime));
+      MatcherAssert.assertThat(errorControllerAdvice.handleException(re).toString(), is(runtime));
     }
 
     @Test
@@ -179,7 +184,7 @@ public class ErrorControllerAdviceTest {
         errorControllerAdvice.handleException(E);
         String exception = "<500,edu.hawaii.its.api.type.GroupingsHTTPException: "
                 + "Exception,[]>";
-        assertThat(errorControllerAdvice.handleException(E).toString(), equalTo(exception));
+        MatcherAssert.assertThat(errorControllerAdvice.handleException(E).toString(), is(exception));
     }
 
     @Test
@@ -188,13 +193,14 @@ public class ErrorControllerAdviceTest {
         errorControllerAdvice.handleGroupingsServiceResultException(GSRE);
         String SRE = "<400,edu.hawaii.its.api.type.GroupingsHTTPException: "
                 + "Groupings Service resulted in FAILURE,[]>";
-        assertThat(errorControllerAdvice.handleGroupingsServiceResultException(GSRE).toString(), equalTo(SRE));
+        MatcherAssert.assertThat(errorControllerAdvice.handleGroupingsServiceResultException(GSRE).toString(),
+                is(SRE));
     }
 
     @Test
     public void typeMismatchTest() {
         Exception E1 = new Exception();
         errorControllerAdvice.handleTypeMismatchException(E1);
-        assertThat(errorControllerAdvice.handleTypeMismatchException(E1), equalTo("redirect:/error"));
+        MatcherAssert.assertThat(errorControllerAdvice.handleTypeMismatchException(E1), is("redirect:/error"));
     }
 }

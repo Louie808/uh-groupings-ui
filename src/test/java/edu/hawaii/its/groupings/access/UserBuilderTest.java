@@ -80,7 +80,7 @@ public class UserBuilderTest {
         User user = userBuilder.make(map);
 
         // Check results.
-        Assertions.assertEquals(4, user.getAuthorities().size());
+        MatcherAssert.assertThat(user.getAuthorities().size(), is(4));
         Assertions.assertTrue(user.hasRole(Role.ANONYMOUS));
         Assertions.assertTrue(user.hasRole(Role.UH));
         Assertions.assertTrue(user.hasRole(Role.ADMIN));
@@ -98,7 +98,7 @@ public class UserBuilderTest {
             userBuilder.make(map);
             Assertions.fail("Should not reach here.");
         } catch (Exception e) {
-            Assertions.assertEquals(UsernameNotFoundException.class, e.getClass());
+            MatcherAssert.assertThat(e.getClass(), is(UsernameNotFoundException.class));
             MatcherAssert.assertThat(e.getMessage(), containsString("uid is empty"));
         }
     }
@@ -112,7 +112,7 @@ public class UserBuilderTest {
             userBuilder.make(map);
             Assertions.fail("Should not reach here.");
         } catch (Exception e) {
-            Assertions.assertEquals(UsernameNotFoundException.class, e.getClass());
+            MatcherAssert.assertThat(e.getClass(), is(UsernameNotFoundException.class));
             MatcherAssert.assertThat(e.getMessage(), containsString("uid is empty"));
         }
     }
