@@ -3,10 +3,8 @@ package edu.hawaii.its.groupings.access;
 import edu.hawaii.its.api.controller.GroupingsRestController;
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
 import edu.hawaii.its.groupings.controller.WithMockUhUser;
-import org.hamcrest.Matcher;
 import org.hamcrest.MatcherAssert;
 import org.jasig.cas.client.authentication.SimplePrincipal;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -16,6 +14,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.web.context.WebApplicationContext;
 
 import java.security.Principal;
@@ -24,17 +23,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import static org.hamcrest.MatcherAssert.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.setup.MockMvcBuilders.webAppContextSetup;
 import org.springframework.boot.test.context.SpringBootTest;
 import static org.hamcrest.CoreMatchers.*;
-import org.springframework.test.context.junit4.SpringRunner;
-import org.junit.runner.RunWith;
-
-@RunWith(SpringRunner.class)
+import org.junit.jupiter.api.extension.ExtendWith;
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { SpringBootWebApplication.class })
 public class UserBuilderTest {
 

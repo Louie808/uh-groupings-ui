@@ -1,5 +1,6 @@
 package edu.hawaii.its.groupings.access;
 
+import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,8 +12,6 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.*;
-import static org.hamcrest.MatcherAssert.assertThat;
-
 
 public class UserTest {
 
@@ -23,8 +22,8 @@ public class UserTest {
         User user = new User("a", authorities);
         Assertions.assertNotNull(user);
 
-        assertThat(user.getUsername(), is("a"));
-        assertThat(user.getUid(), is("a"));
+        MatcherAssert.assertThat(user.getUsername(), is("a"));
+        MatcherAssert.assertThat(user.getUid(), is("a"));
         Assertions.assertNull(user.getUhUuid());
         Assertions.assertNull(user.getAttributes());
 
@@ -32,13 +31,13 @@ public class UserTest {
         authorities.add(new SimpleGrantedAuthority(Role.ANONYMOUS.longName()));
         user = new User("b", "12345", authorities);
 
-        assertThat(user.getUsername(), is("b"));
-        assertThat(user.getUid(), is("b"));
-        assertThat(user.getUhUuid(), is("12345"));
+        MatcherAssert.assertThat(user.getUsername(), is("b"));
+        MatcherAssert.assertThat(user.getUid(), is("b"));
+        MatcherAssert.assertThat(user.getUhUuid(), is("12345"));
         Assertions.assertNull(user.getAttributes());
 
         user.setAttributes(new UhCasAttributes());
-        assertThat(user.getName(), is(""));
+        MatcherAssert.assertThat(user.getName(), is(""));
     }
 
     @Test
@@ -55,10 +54,10 @@ public class UserTest {
         User user = new User("a", authorities);
         user.setAttributes(new UhCasAttributes(map));
 
-        assertThat(user.getAttribute("uid"), equalTo("duckart"));
-        assertThat(user.getName(), equalTo("Frank6"));
-        assertThat(user.getGivenName(), equalTo("Frank"));
-        assertThat(user.toString(), containsString("uid=a"));
-        assertThat(user.toString(), containsString("uhUuid=null"));
+        MatcherAssert.assertThat(user.getAttribute("uid"), is("duckart"));
+        MatcherAssert.assertThat(user.getName(), is("Frank6"));
+        MatcherAssert.assertThat(user.getGivenName(), is("Frank"));
+        MatcherAssert.assertThat(user.toString(), containsString("uid=a"));
+        MatcherAssert.assertThat(user.toString(), containsString("uhUuid=null"));
     }
 }
