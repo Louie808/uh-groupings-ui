@@ -2,22 +2,22 @@ package edu.hawaii.its.groupings.service;
 
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
 import edu.hawaii.its.groupings.type.Feedback;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mail.MailException;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.not;
-import static org.junit.Assert.assertThat;
 
-@RunWith(SpringRunner.class)
+@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = { SpringBootWebApplication.class })
 public class EmailServiceTest {
 
@@ -37,7 +37,7 @@ public class EmailServiceTest {
         return feedback;
     }
 
-    @Before
+    @BeforeEach
     public void setUp() {
         JavaMailSender sender = new MockJavaMailSender() {
             @Override
@@ -58,13 +58,13 @@ public class EmailServiceTest {
         Feedback feedback = createBaseFeedback();
 
         emailService.send(feedback);
-        assertThat(wasSent, is(true));
+        MatcherAssert.assertThat(wasSent, is(true));
 
-        assertThat(messageSent.getSubject(), containsString("problem"));
-        assertThat(messageSent.getText(), containsString("John Doe"));
-        assertThat(messageSent.getText(), containsString("jdoe@hawaii.edu"));
-        assertThat(messageSent.getText(), containsString("Some problem happened."));
-        assertThat(messageSent.getText(), not(containsString("Stack Trace:")));
+        MatcherAssert.assertThat(messageSent.getSubject(), containsString("problem"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("John Doe"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("jdoe@hawaii.edu"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("Some problem happened."));
+        MatcherAssert.assertThat(messageSent.getText(), not(containsString("Stack Trace:")));
     }
 
     @Test
@@ -73,14 +73,14 @@ public class EmailServiceTest {
         feedback.setExceptionMessage("ArrayIndexOutOfBoundsException");
 
         emailService.send(feedback);
-        assertThat(wasSent, is(true));
+        MatcherAssert.assertThat(wasSent, is(true));
 
-        assertThat(messageSent.getSubject(), containsString("problem"));
-        assertThat(messageSent.getText(), containsString("John Doe"));
-        assertThat(messageSent.getText(), containsString("jdoe@hawaii.edu"));
-        assertThat(messageSent.getText(), containsString("Some problem happened."));
-        assertThat(messageSent.getText(), containsString("Stack Trace:"));
-        assertThat(messageSent.getText(), containsString("ArrayIndexOutOfBoundsException"));
+        MatcherAssert.assertThat(messageSent.getSubject(), containsString("problem"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("John Doe"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("jdoe@hawaii.edu"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("Some problem happened."));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("Stack Trace:"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("ArrayIndexOutOfBoundsException"));
     }
 
     @Test
@@ -88,14 +88,14 @@ public class EmailServiceTest {
         Feedback feedback = createBaseFeedback();
 
         emailService.send(feedback);
-        assertThat(wasSent, is(true));
+        MatcherAssert.assertThat(wasSent, is(true));
 
-        assertThat(messageSent.getSubject(), containsString("problem"));
-        assertThat(messageSent.getText(), containsString("John Doe"));
-        assertThat(messageSent.getText(), containsString("jdoe@hawaii.edu"));
-        assertThat(messageSent.getText(), containsString("Some problem happened."));
-        assertThat(messageSent.getText(), containsString(""));
-        assertThat(messageSent.getText(), containsString(""));
+        MatcherAssert.assertThat(messageSent.getSubject(), containsString("problem"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("John Doe"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("jdoe@hawaii.edu"));
+        MatcherAssert.assertThat(messageSent.getText(), containsString("Some problem happened."));
+        MatcherAssert.assertThat(messageSent.getText(), containsString(""));
+        MatcherAssert.assertThat(messageSent.getText(), containsString(""));
     }
 
     @Test
@@ -114,16 +114,16 @@ public class EmailServiceTest {
         Feedback feedback = createBaseFeedback();
 
         emailServiceWithException.send(feedback);
-        assertThat(wasSent, is(false));
+        MatcherAssert.assertThat(wasSent, is(false));
     }
 
     @Test
     public void enabled() {
         emailService.setEnabled(false);
-        assertThat(emailService.isEnabled(), is(false));
+        MatcherAssert.assertThat(emailService.isEnabled(), is(false));
 
         emailService.setEnabled(true);
-        assertThat(emailService.isEnabled(), is(true));
+        MatcherAssert.assertThat(emailService.isEnabled(), is(true));
     }
 
 }

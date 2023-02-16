@@ -1,17 +1,19 @@
 package edu.hawaii.its.groupings.type;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 
 public class OwnerTest {
 
     private Owner owner;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         owner = new Owner();
     }
@@ -19,40 +21,40 @@ public class OwnerTest {
     @Test
     public void construction() {
         owner = new Owner("James T Kirk");
-        assertThat(owner.getPrivilegeName(), equalTo("James T Kirk"));
+        MatcherAssert.assertThat(owner.getPrivilegeName(), is("James T Kirk"));
     }
 
     @Test
     public void name() {
-        assertThat(owner.getName(), equalTo(null));
+        Assertions.assertNull(owner.getName());
         owner.setName("frank");
-        assertThat(owner.getName(), equalTo("frank"));
+        MatcherAssert.assertThat(owner.getName(), is("frank"));
     }
 
     @Test
     public void privilegeName() {
-        assertThat(owner.getPrivilegeName(), equalTo(null));
+        Assertions.assertNull(owner.getPrivilegeName());
         owner.setPrivilegeName("frd");
-        assertThat(owner.getPrivilegeName(), equalTo("frd"));
+        MatcherAssert.assertThat(owner.getPrivilegeName(), is("frd"));
     }
 
     @Test
     public void uhUuid() {
-        assertThat(owner.getUhUuid(), equalTo(null));
+        Assertions.assertNull(owner.getUhUuid());
         owner.setUhUuid("uhUuid");
-        assertThat(owner.getUhUuid(), equalTo("uhUuid"));
+        MatcherAssert.assertThat(owner.getUhUuid(), is("uhUuid"));
     }
 
     @Test
     public void uid() {
-        assertThat(owner.getUid(), equalTo(null));
+        Assertions.assertNull(owner.getUid());
         owner.setUid("uid");
-        assertThat(owner.getUid(), equalTo("uid"));
+        MatcherAssert.assertThat(owner.getUid(), is("uid"));
     }
 
     @Test
     public void testToString() {
         owner.setPrivilegeName("duke");
-        assertThat(owner.toString(), containsString("Owner [privilegeName=duke,"));
+        MatcherAssert.assertThat(owner.toString(), containsString("Owner [privilegeName=duke,"));
     }
 }

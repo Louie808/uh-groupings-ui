@@ -1,5 +1,6 @@
 package edu.hawaii.its.groupings.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import edu.hawaii.its.groupings.configuration.SpringBootWebApplication;
 import edu.hawaii.its.groupings.exceptions.PasswordFoundException;
@@ -7,7 +8,6 @@ import edu.hawaii.its.groupings.exceptions.PasswordFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThrows;
 
 @SpringBootTest(classes = { SpringBootWebApplication.class })
@@ -18,7 +18,7 @@ public class PasswordScannerTest {
 
     @Test
     public void construction() {
-        assertNotNull(passwordScanner);
+        Assertions.assertNotNull(passwordScanner);
     }
 
     @Test

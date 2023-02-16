@@ -1,46 +1,45 @@
 package edu.hawaii.its.groupings.type;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class MessageTest {
 
     private Message message;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         message = new Message();
     }
 
     @Test
     public void construction() {
-        assertNotNull(message);
+        Assertions.assertNotNull(message);
     }
 
     @Test
     public void setters() {
-        assertNotNull(message);
-        assertNull(message.getId());
-        assertNull(message.getEnabled());
-        assertNull(message.getText());
-        assertNull(message.getTypeId());
+        Assertions.assertNotNull(message);
+        Assertions.assertNull(message.getId());
+        Assertions.assertNull(message.getEnabled());
+        Assertions.assertNull(message.getText());
+        Assertions.assertNull(message.getTypeId());
 
         message.setId(666);
-        assertThat(message.getId(), equalTo(666));
+        MatcherAssert.assertThat(message.getId(), equalTo(666));
     }
 
     @Test
     public void testToString() {
         String expected = "Message [id=null, typeId=null, enabled=null, text=null]";
-        assertThat(message.toString(), containsString(expected));
+        MatcherAssert.assertThat(message.toString(), containsString(expected));
 
         message.setId(12345);
-        assertThat(message.toString(), containsString("Message [id=12345,"));
+        MatcherAssert.assertThat(message.toString(), containsString("Message [id=12345,"));
     }
 }

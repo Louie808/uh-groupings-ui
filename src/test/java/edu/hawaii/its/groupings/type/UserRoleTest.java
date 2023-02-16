@@ -1,50 +1,49 @@
 package edu.hawaii.its.groupings.type;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 
 public class UserRoleTest {
 
     private UserRole userRole;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         userRole = new UserRole();
     }
 
     @Test
     public void construction() {
-        assertNotNull(userRole);
+        Assertions.assertNotNull(userRole);
     }
 
     @Test
     public void setters() {
-        assertNotNull(userRole);
+        Assertions.assertNotNull(userRole);
 
-        assertNull(userRole.getId());
-        assertNull(userRole.getAuthority());
-        assertNull(userRole.getVersion());
+        Assertions.assertNull(userRole.getId());
+        Assertions.assertNull(userRole.getAuthority());
+        Assertions.assertNull(userRole.getVersion());
 
         userRole.setId(666);
         userRole.setAuthority("The Beast");
         userRole.setVersion(9);
-        assertThat(userRole.getId(), equalTo(666));
-        assertThat(userRole.getAuthority(), equalTo("The Beast"));
-        assertThat(userRole.getVersion(), equalTo(9));
+        MatcherAssert.assertThat(userRole.getId(), is(666));
+        MatcherAssert.assertThat(userRole.getAuthority(), is("The Beast"));
+        MatcherAssert.assertThat(userRole.getVersion(), is(9));
     }
 
     @Test
     public void testToString() {
         String expected = "UserRole [id=null, version=null, authority=null]";
-        assertThat(userRole.toString(), containsString(expected));
+        MatcherAssert.assertThat(userRole.toString(), containsString(expected));
 
         userRole.setId(12345);
-        assertThat(userRole.toString(), containsString("UserRole [id=12345,"));
+        MatcherAssert.assertThat(userRole.toString(), containsString("UserRole [id=12345,"));
     }
 }

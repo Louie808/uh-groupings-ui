@@ -1,31 +1,30 @@
 package edu.hawaii.its.groupings.type;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
 
 public class FeedbackTest {
 
     private Feedback feedback;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         feedback = new Feedback();
     }
 
     @Test
     public void setters() {
-        assertNotNull(feedback);
-        assertNull(feedback.getName());
-        assertNull(feedback.getEmail());
-        assertNull(feedback.getType());
-        assertNull(feedback.getMessage());
-        assertNull(feedback.getExceptionMessage());
+        Assertions.assertNotNull(feedback);
+        Assertions.assertNull(feedback.getName());
+        Assertions.assertNull(feedback.getEmail());
+        Assertions.assertNull(feedback.getType());
+        Assertions.assertNull(feedback.getMessage());
+        Assertions.assertNull(feedback.getExceptionMessage());
 
         feedback.setName("Test User");
         feedback.setEmail("test@hawaii.edu");
@@ -33,28 +32,28 @@ public class FeedbackTest {
         feedback.setMessage("Test Message");
         feedback.setExceptionMessage("Exception Message");
 
-        assertThat(feedback.getName(), equalTo("Test User"));
-        assertThat(feedback.getEmail(), equalTo("test@hawaii.edu"));
-        assertThat(feedback.getType(), equalTo("Problem"));
-        assertThat(feedback.getMessage(), equalTo("Test Message"));
-        assertThat(feedback.getExceptionMessage(), equalTo("Exception Message"));
+        MatcherAssert.assertThat(feedback.getName(), equalTo("Test User"));
+        MatcherAssert.assertThat(feedback.getEmail(), equalTo("test@hawaii.edu"));
+        MatcherAssert.assertThat(feedback.getType(), equalTo("Problem"));
+        MatcherAssert.assertThat(feedback.getMessage(), equalTo("Test Message"));
+        MatcherAssert.assertThat(feedback.getExceptionMessage(), equalTo("Exception Message"));
 
-        assertThat(feedback.toString(), containsString("email=test@hawaii.edu"));
-        assertThat(feedback.toString(), containsString("exceptionMessage=Exception Message"));
+        MatcherAssert.assertThat(feedback.toString(), containsString("email=test@hawaii.edu"));
+        MatcherAssert.assertThat(feedback.toString(), containsString("exceptionMessage=Exception Message"));
     }
 
     @Test
     public void exceptionConstruction() {
         feedback = new Feedback("Test Exception Stack Trace");
 
-        assertNotNull(feedback);
-        assertNull(feedback.getName());
-        assertNull(feedback.getEmail());
-        assertNull(feedback.getType());
-        assertNull(feedback.getMessage());
-        assertThat(feedback.getExceptionMessage(), equalTo("Test Exception Stack Trace"));
+        Assertions.assertNotNull(feedback);
+        Assertions.assertNull(feedback.getName());
+        Assertions.assertNull(feedback.getEmail());
+        Assertions.assertNull(feedback.getType());
+        Assertions.assertNull(feedback.getMessage());
+        MatcherAssert.assertThat(feedback.getExceptionMessage(), equalTo("Test Exception Stack Trace"));
 
-        assertThat(feedback.toString(), containsString("exceptionMessage=Test Exception Stack Trace"));
+        MatcherAssert.assertThat(feedback.toString(), containsString("exceptionMessage=Test Exception Stack Trace"));
     }
 
 }

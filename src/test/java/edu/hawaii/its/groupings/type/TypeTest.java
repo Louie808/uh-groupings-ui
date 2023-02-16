@@ -1,48 +1,47 @@
 package edu.hawaii.its.groupings.type;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.hamcrest.MatcherAssert;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import static org.hamcrest.CoreMatchers.containsString;
-import static org.hamcrest.CoreMatchers.equalTo;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertThat;
+import static org.hamcrest.CoreMatchers.is;
 
 public class TypeTest {
 
     private Type type;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         type = new Type();
     }
 
     @Test
     public void construction() {
-        assertNotNull(type);
+        Assertions.assertNotNull(type);
     }
 
     @Test
     public void setters() {
-        assertNotNull(type);
-        assertNull(type.getId());
-        assertNull(type.getDescription());
-        assertNull(type.getVersion());
+        Assertions.assertNotNull(type);
+        Assertions.assertNull(type.getId());
+        Assertions.assertNull(type.getDescription());
+        Assertions.assertNull(type.getVersion());
 
         type.setId(666);
         type.setDescription("The Beast");
         type.setVersion(9);
-        assertThat(type.getId(), equalTo(666));
-        assertThat(type.getDescription(), equalTo("The Beast"));
-        assertThat(type.getVersion(), equalTo(9));
+        MatcherAssert.assertThat(type.getId(), is(666));
+        MatcherAssert.assertThat(type.getDescription(), is("The Beast"));
+        MatcherAssert.assertThat(type.getVersion(), is(9));
     }
 
     @Test
     public void testToString() {
-        assertThat(type.toString(), containsString("id=null, description=null"));
+        MatcherAssert.assertThat(type.toString(), containsString("id=null, description=null"));
 
         type.setId(12345);
-        assertThat(type.toString(), containsString("Type [id=12345,"));
+        MatcherAssert.assertThat(type.toString(), containsString("Type [id=12345,"));
     }
 }
