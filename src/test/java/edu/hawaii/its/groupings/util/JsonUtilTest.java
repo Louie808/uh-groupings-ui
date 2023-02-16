@@ -1,13 +1,11 @@
 package edu.hawaii.its.groupings.util;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 import edu.hawaii.its.groupings.type.Feedback;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Modifier;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class JsonUtilTest {
 
@@ -18,28 +16,28 @@ public class JsonUtilTest {
 
         Feedback fb1 = JsonUtil.asObject(fbJson, Feedback.class);
 
-        assertEquals(fb0.getName(), fb1.getName());
-        assertEquals(fb0.getEmail(), fb1.getEmail());
-        assertEquals(fb0.getType(), fb1.getType());
-        assertEquals(fb0.getMessage(), fb1.getMessage());
-        assertEquals(fb0.getExceptionMessage(), fb1.getExceptionMessage());
-    }
+        Assertions.assertEquals(fb0.getName(), fb1.getName());
+        Assertions.assertEquals(fb0.getEmail(), fb1.getEmail());
+        Assertions.assertEquals(fb0.getType(), fb1.getType());
+        Assertions.assertEquals(fb0.getMessage(), fb1.getMessage());
+        Assertions.assertEquals(fb0.getExceptionMessage(), fb1.getExceptionMessage());
+    }Assertions.
 
     @Test
     public void problems() {
         String json = JsonUtil.asJson(null);
-        assertEquals(json, "null");
+        Assertions.assertEquals(json, "null");
 
         json = JsonUtil.asJson("{}");
-        assertEquals(json, "\"{}\"");
+        Assertions.assertEquals(json, "\"{}\"");
 
         json = JsonUtil.asJson("mistake");
-        assertEquals(json, "\"mistake\"");
+        Assertions.assertEquals(json, "\"mistake\"");
     }
 
     @Test
     public void constructorIsPrivate() throws Exception {
         Constructor<JsonUtil> constructor = JsonUtil.class.getDeclaredConstructor();
-        assertTrue(Modifier.isPrivate(constructor.getModifiers()));
+        Assertions.assertTrue(Modifier.isPrivate(constructor.getModifiers()));
     }
 }
