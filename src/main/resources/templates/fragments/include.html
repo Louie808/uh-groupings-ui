@@ -32,6 +32,27 @@
                                ng-disabled="groupingInclude.length === 0"
                                ng-click="toggleCheckAllSelection('Include')"
                                value="option1" tooltip="Check all" data-placement="top">
+                        <button class="btn btn-selectAll"
+                                ng-blur="dismissErrors()"
+                                ng-click="displayResetGroupModal('Include')">
+                            Remove
+                        </button>
+                        <button class="btn btn-remove"
+                                ng-click="displaySelectAllModal('Include')">
+                            Member Selection
+                        </button>
+                        <input class="position-relative ml-0" type="checkbox"
+                               aria-label="Check all on PAGE"
+                               ng-model="allSelected"
+                               ng-disabled="groupingInclude.length === 0"
+                               ng-click="toggleCheckAllSelection('Include')"
+                               value="option1" tooltip="Select all on Page" data-placement="top">
+                        <input class="position-relative ml-0" type="checkbox"
+                               aria-label="Check all IN LIST"
+                               ng-model="allSelected"
+                               ng-disabled="groupingInclude.length === 0"
+                               ng-click="toggleCheckAllSelection('Include')"
+                               value="option1" tooltip="Select entire list" data-placement="top">
                     </th>
                     <th scope="col" role="button"
                         ng-click="sortBy('groupingInclude', 'pagedItemsInclude', 'name')">

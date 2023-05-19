@@ -1138,7 +1138,32 @@
                 pageItems = $scope.pagedItemsInclude;
                 pageNumber = $scope.currentPageInclude;
             }
+            // console.log("groupingsList:", $scope.groupingsList);
+            // console.log("pagedItemsGroupings:", $scope.pagedItemsGroupings);
+            // console.log("currentPageGroupings:", $scope.currentPageGroupings);
+            // console.log("selectedGrouping:", $scope.selectedGrouping);
 
+            // console.log("groupingBasis:", $scope.groupingBasis);
+            console.log("pagedItemsBasis:", $scope.pagedItemsBasis);
+            // console.log("currentPageBasis:", $scope.currentPageBasis);
+
+            console.log("groupingMembers:", $scope.groupingMembers.length);
+            console.log("pagedItemsMembers:", $scope.pagedItemsMembers.length);
+            console.log("currentPageMembers:", $scope.currentPageMembers.length);
+
+            console.log("groupingInclude:", $scope.groupingInclude);
+            console.log("pagedItemsInclude:", $scope.pagedItemsInclude);
+            console.log("currentPageInclude:", $scope.currentPageInclude);
+            //
+            // console.log("groupingExclude:", $scope.groupingExclude.length);
+            // console.log("pagedItemsExclude:", $scope.pagedItemsExclude.length);
+            // console.log("currentPageExclude:", $scope.currentPageExclude.length);
+
+            // console.log("groupingOwners:", $scope.groupingOwners);
+            // console.log("pagedItemsOwners:", $scope.pagedItemsOwners);
+            // console.log("currentPageOwners:", $scope.currentPageOwners);
+            // for (i = 0; i < 10; i++) {
+            // }
             for (let member of pageItems[pageNumber]) {
                 $scope.membersInCheckboxList[member.uhUuid] = $scope.allSelected;
             }
@@ -1407,6 +1432,25 @@
         $scope.cancelRemoveModal = function () {
             clearMemberInput();
             $scope.removeModalInstance.dismiss("cancel");
+        };
+
+        /**
+         * Displays a modal to select either all members on page or all in entire grouping.
+         */
+        $scope.displaySelectAllModal = function () {
+            $scope.selectAllModalInstance = $uibModal.open({
+                templateUrl: "modal/selectAllModal",
+                scope: $scope,
+                backdrop: "static"
+            });
+        };
+
+        /**
+         * Close the select all modal.
+         */
+        $scope.closeSelectAllModal = () => {
+            clearMemberInput();
+            $scope.selectAllModalInstance.close();
         };
 
         /**
